@@ -1,0 +1,16 @@
+
+.s-to-do-home {
+    margin: 0 auto;
+    padding-top: 50px;
+    padding-bottom: 60px;
+}
+.s-to-do-footer {
+    position: fixed;
+    width: 100%;
+    bottom: 25px;
+    right: 25px;
+    text-align: right;
+}
+p {
+    width: 90%;
+}
