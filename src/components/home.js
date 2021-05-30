@@ -5,60 +5,60 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
 import { useEffect, useState } from "react";
-// const Transition = forwardRef(function Transition(props, ref) {
-//     return <Slide direction="up" ref={ref} {...props} />;
-//   });
+import Model from '../model/model';
+import Footer from '../components/footer';
+
 function Home() {
     const [open, setOpen] = useState(false);
+    const [title,setTitle] = useState();
+    const [description,setDescription] = useState();
+    const [type,setType] = useState('edit');
+    const [data,setData] = useState([]);
+    const [id,setId] = useState();
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (event) => {
+        setTitle(event.title);
+        setDescription(event.description);
+        setId(event.id);
+        setType('edit');
       setOpen(true);
     };
-  
-    const handleClose = () => {
-      setOpen(false);
+
+    const handleClose = (value) => {
+        
+        if (value.type == "add") {
+            value.id = (data.length);
+            data.push(value);
+            setData(data);
+        }
+        setOpen(false);
     };
   
   return (
     <div className="s-to-do-home">
-        <Accordion>
-            <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                >
-            <Typography >s</Typography>
-            <DeleteIcon />
-            </AccordionSummary>
-            <AccordionDetails>
-                <Typography>
-                    here is the description
-                </Typography>
-            <EditIcon onClick={handleClickOpen} />
-            </AccordionDetails>
-        </Accordion>
-        <Dialog
-            open={open}
-            keepMounted
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-slide-title"
-            aria-describedby="alert-dialog-slide-description"
-        >
-            <DialogTitle id="alert-dialog-slide-title">title</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        this is the description
-                    </DialogContentText>
-                </DialogContent>
-            <DialogActions></DialogActions>
-        </Dialog>
+        {data.map(row=>{
+           return (<Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    >
+                    <Typography > {row.title}</Typography>
+                    <DeleteIcon />
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography>{row.description}</Typography>
+                    <EditIcon onClick={()=>handleClickOpen(row)} />
+                </AccordionDetails>
+            </Accordion>)
+            
+        })}
+        
+       
+        
+        <Model close={handleClose} open={open} title={title} description={description} id={id} type={type}/>
+        <Footer close={handleClose}/>
     </div>
   );
 }
