@@ -4,6 +4,9 @@ import Model from '../model/model';
 import { useEffect, useState } from "react";
 function Footer(props) {
     const [open, setOpen] = useState(false);
+    const [title,setTitle] = useState();
+    const [description, setDescription] = useState();
+    const [id, setId] = useState();
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -17,7 +20,7 @@ function Footer(props) {
             <Fab position="fixed" color="primary" aria-label="add">
                  <AddIcon onClick={handleClickOpen}/>
             </Fab>
-        <Model close={onClosing} open={open} title="" description="" id="" type="add"/>
+        <Model close={onClosing} open={open} title={title} description={title} id={id} type="add"/>
     </div>
   );
 }

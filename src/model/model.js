@@ -4,17 +4,39 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useEffect, useState } from "react";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import SaveIcon from '@material-ui/icons/Save';
+import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import React from 'react';
 import { FormControl } from '@material-ui/core';
+
 function Model(props) {
-    const [id,setId] = useState(props.id);
-    const [title,setTitle] = useState();
-    const [description,setDescription] = useState();
-    const onClosing = () => {
-        let returnValue = { 'title' : title, 'description':description, 'id': id, 'type':props.type};
+    const [title,setTitle] = useState(props.title);
+    const [description,setDescription] = useState(props.description);
+    const onClosing = (event) => {
+        if(event == 'close') {
+            props.close('');
+            return false;
+        }
+        let returnValue;
+        let title1 = title;
+        let description1 = description;
+        if(title1 == undefined) {
+            title1 = props.title;
+        } else {
+            title1 = title;
+        }
+        if(description1 == undefined) {
+            description1 = props.description;
+        } else {
+            description1 = description;
+        }
+        if(props.type == "add") {
+            returnValue = { 'title' : title1, 'description':description1, 'id': props.id, 'type':'add'};
+        } else {
+            returnValue = { 'title' : title1, 'description':description1, 'id': props.id, 'type':'edit'};
+        }
+        
         props.close(returnValue);
     }
   return (
@@ -28,21 +50,21 @@ function Model(props) {
             <FormControl>
             <DialogTitle id="alert-dialog-slide-title">
                 <TextField id="title" label="Title" defaultValue={props.title} onChange={ (e) => setTitle(e.target.value)}/>
-                </DialogTitle>
+            </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                    <TextareaAutosize
+                    <TextField
                         id="description"
-                        rowsMax={4}
-                        aria-label="maximum height"
-                        placeholder="Maximum 4 rows"
+                        label="Description"
+                        placeholder="Description"
                         defaultValue={props.description}
                         onChange={ (e) => setDescription(e.target.value)}
+                        multiline
                         />
                     </DialogContentText>
                 </DialogContent>
                 </FormControl>
-            <DialogActions><ArrowBackIosIcon onClick={()=>onClosing()} /></DialogActions>
+            <DialogActions><SaveIcon onClick={()=>onClosing('save')} /><CloseIcon onClick={()=>onClosing('close')} /></DialogActions>
         </Dialog>
     </div>
   );

@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useEffect, useState } from "react";
+import  React, { useState, useEffect } from "react";
 import Model from '../model/model';
 import Footer from '../components/footer';
 
@@ -22,19 +22,33 @@ function Home() {
         setDescription(event.description);
         setId(event.id);
         setType('edit');
-      setOpen(true);
+        setOpen(true);
     };
 
     const handleClose = (value) => {
-        
         if (value.type == "add") {
-            value.id = (data.length);
-            data.push(value);
-            setData(data);
+            value.id = data.length;
+            setData([...data,{
+                id : data.length,
+                title : value.title,
+                description : value.description,
+                type : 'add'
+            }])
+        } else if (value.type == "edit") {
+            data[value.id] = value;
+            setData(data)
         }
         setOpen(false);
     };
-  
+    const handleClickDelete = (value)=> {
+        let arr = [];
+        data.map(data=>{
+            if(value.id !== data.id) {
+                arr.push(data);
+            }
+        })
+        setData(arr);
+    }
   return (
     <div className="s-to-do-home">
         {data.map(row=>{
@@ -45,7 +59,7 @@ function Home() {
                     id="panel1a-header"
                     >
                     <Typography > {row.title}</Typography>
-                    <DeleteIcon />
+                    <DeleteIcon onClick={()=>handleClickDelete(row)}/>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>{row.description}</Typography>
