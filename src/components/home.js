@@ -17,6 +17,15 @@ function Home() {
     const [data,setData] = useState([]);
     const [id,setId] = useState();
 
+    useEffect(
+        () => {
+            let getData = localStorage.getItem("s-todo");
+            if(getData == null) {
+                return false
+            }
+            setData(JSON.parse(getData));
+        },[]
+    )
     const handleClickOpen = (event) => {
         setTitle(event.title);
         setDescription(event.description);
@@ -33,9 +42,18 @@ function Home() {
                 title : value.title,
                 description : value.description,
                 type : 'add'
-            }])
+            }]);
+            let getData = data;
+                getData.push({
+                    id : data.length,
+                    title : value.title,
+                    description : value.description,
+                    type : 'add'
+                });
+                localStorage.setItem("s-todo",JSON.stringify(getData));
         } else if (value.type == "edit") {
             data[value.id] = value;
+            localStorage.setItem("s-todo",JSON.stringify(data));
             setData(data)
         }
         setOpen(false);
@@ -47,6 +65,7 @@ function Home() {
                 arr.push(data);
             }
         })
+        localStorage.setItem("s-todo",JSON.stringify(arr));
         setData(arr);
     }
   return (
