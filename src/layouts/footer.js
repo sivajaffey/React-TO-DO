@@ -1,6 +1,6 @@
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import Model from '../model/model';
+import Model from '../shared/model';
 import { useEffect, useState } from "react";
 function Footer(props) {
     const [open, setOpen] = useState(false);

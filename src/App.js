@@ -1,16 +1,10 @@
 import './App.css';
-import Box from '@material-ui/core/Box';
-import Header from './components/header';
-import Home from './components/home';
+import Main from './config/main';
+import { Provider } from 'react-redux'
 function App() {
-  const title = 'S-TODO';
   return (
     <div className="App">
-      <Box color="text.primary">
-        <Header title={title}/>
-        <Home />
-        
-      </Box>
+      <Main />
     </div>
   );
 }

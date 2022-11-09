@@ -6,8 +6,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import  React, { useState, useEffect } from "react";
-import Model from '../model/model';
-import Footer from '../components/footer';
+import Model from '../shared/model';
+import Footer from '../layouts/footer';
 
 function Home() {
     const [open, setOpen] = useState(false);
